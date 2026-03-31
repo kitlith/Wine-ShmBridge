@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include <wine/unixlib.h>
+#include <unixlib.h>
 #include "shmbridge.h"
 
 unixlib_handle_t __shmbridge_unixlib_handle;

@@ -85,7 +85,7 @@ NTSTATUS sem_timedwait_unix(void *args)
 {
 #if defined(__APPLE__)
     return 1;
-#elif
+#else
     struct prm_timedwait *a = args;
     int sem_result = sem_timedwait(a->sem, a->abstime);
     int err = errno;

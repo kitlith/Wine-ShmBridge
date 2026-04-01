@@ -3,12 +3,6 @@
 #include <unixlib.h>
 #include "shmbridge.h"
 
-unixlib_handle_t __shmbridge_unixlib_handle;
-unixlib_module_t __shmbridge_unixlib_module;
-
-#undef WINE_UNIX_CALL
-#define WINE_UNIX_CALL(code,args) __wine_unix_call( __shmbridge_unixlib_handle, (code), (args) )
-
 const UNICODE_STRING shmbridge_so = {
     .Buffer = L"shmbridge",
     .Length = sizeof(L"shmbridge"),
@@ -20,10 +14,9 @@ BOOL WINAPI DllMain(HINSTANCE module, DWORD reason, LPVOID reserved)
     switch( reason )
     {
 	case DLL_PROCESS_ATTACH:
-	    if( __wine_load_unix_lib(&shmbridge_so, &__shmbridge_unixlib_module, &__shmbridge_unixlib_handle) ) return FALSE;
+	    if (__wine_init_unix_call()) return FALSE;
 	    break;
 	case DLL_PROCESS_DETACH:
-	    if ( __wine_unload_unix_lib(__shmbridge_unixlib_module) ) return FALSE;
 	    break;
 	case DLL_THREAD_ATTACH:
 	    break;
